@@ -1,6 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { pickProblem, rounds } from '@/lib/problems';
 import { rounds } from '@/lib/problems';
 import { Mode, Problem, Round } from '@/lib/types';
 
@@ -56,6 +57,11 @@ export default function HomePage() {
 
   const fetchProblem = useCallback(async () => {
     setLoading(true);
+    const nextProblem = pickProblem({
+      exclude: seenRef.current,
+      rating,
+      round: roundFilter
+    });
     const exclude = Array.from(seenRef.current).join(',');
     const res = await fetch(`/api/problems?exclude=${encodeURIComponent(exclude)}&round=${encodeURIComponent(roundFilter)}&rating=${rating}`);
     const data = await res.json();

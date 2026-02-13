@@ -1,4 +1,16 @@
 /** @type {import('next').NextConfig} */
+const isGithubActions = process.env.GITHUB_ACTIONS === 'true';
+const repo = process.env.GITHUB_REPOSITORY?.split('/')[1] ?? 'RapidFAMAT';
+
+const nextConfig = {
+  output: 'export',
+  trailingSlash: true,
+  images: {
+    unoptimized: true
+  },
+  basePath: isGithubActions ? `/${repo}` : '',
+  assetPrefix: isGithubActions ? `/${repo}/` : ''
+};
 const nextConfig = {};
 
 export default nextConfig;
