@@ -11,5 +11,6 @@ const nextConfig = {
   basePath: isGithubActions ? `/${repo}` : '',
   assetPrefix: isGithubActions ? `/${repo}/` : ''
 };
+const nextConfig = {};
 
 export default nextConfig;

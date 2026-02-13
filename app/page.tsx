@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { pickProblem, rounds } from '@/lib/problems';
+import { rounds } from '@/lib/problems';
 import { Mode, Problem, Round } from '@/lib/types';
 
 type Feedback = { kind: 'correct' | 'incorrect'; text: string } | null;
@@ -61,6 +62,10 @@ export default function HomePage() {
       rating,
       round: roundFilter
     });
+    const exclude = Array.from(seenRef.current).join(',');
+    const res = await fetch(`/api/problems?exclude=${encodeURIComponent(exclude)}&round=${encodeURIComponent(roundFilter)}&rating=${rating}`);
+    const data = await res.json();
+    const nextProblem: Problem = data.problem;
 
     if (seenRef.current.size >= 200) {
       seenRef.current.clear();
